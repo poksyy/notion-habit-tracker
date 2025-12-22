@@ -1,0 +1,28 @@
+name: Monthly Cleanup
+
+on:
+  schedule:
+    - cron: '0 5 1 * *'  # 1st of each month at 3:00 AM Spanish time
+  workflow_dispatch:
+    inputs:
+      months:
+        description: 'Months to keep'
+        required: false
+        default: '1'
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+      - run: mvn clean package -q
+      - run: java -jar target/notion-automations-1.0.0.jar cleanup ${{ github.event.inputs.months || '1' }}
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          DAYS_DATABASE_ID: ${{ secrets.DAYS_DATABASE_ID }}
+          DAILY_LOG_DATABASE_ID: ${{ secrets.DAILY_LOG_DATABASE_ID }}
