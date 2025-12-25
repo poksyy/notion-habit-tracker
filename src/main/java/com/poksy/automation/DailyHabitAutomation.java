@@ -14,8 +14,16 @@ public class DailyHabitAutomation {
     private final DayService dayService;
     private final HabitService habitService;
 
-    private static final List<Habit> HABITS = List.of(new Habit("Meditate", HabitGroup.MORNING, "🧘"), new Habit("Stretching", HabitGroup.MORNING, "🤸‍♂️"), new Habit("Work", HabitGroup.MORNING, "💻"), new Habit("Morning routine", HabitGroup.MORNING, "☀️"), new Habit("Exercise", HabitGroup.EVENING, "🏋️"), new Habit("Learn", HabitGroup.EVENING, "📖"), new Habit("Night routine", HabitGroup.EVENING, "🌑"));
-
+    private static final List<Habit> HABITS = List.of(
+            new Habit("Morning routine", HabitGroup.MORNING, "🌅", 1),
+            new Habit("Stretching", HabitGroup.MORNING, "🤸", 2),
+            new Habit("Meditate", HabitGroup.MORNING, "🧘", 3),
+            new Habit("Work", HabitGroup.MORNING, "💻", 4),
+            new Habit("Exercise", HabitGroup.EVENING, "💪", 5),
+            new Habit("Learn", HabitGroup.EVENING, "📚", 6),
+            new Habit("Night routine", HabitGroup.EVENING, "🌙", 7)
+    );
+    
     public DailyHabitAutomation(NotionClient client) {
         this.dayService = new DayService(client);
         this.habitService = new HabitService(client);
