@@ -5,7 +5,8 @@ package com.poksy.model;
  */
 public record Habit(
         String name,
-        HabitGroup group
+        HabitGroup group,
+        String icon
 ) {
     
     /**

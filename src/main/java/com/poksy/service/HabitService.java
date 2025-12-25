@@ -11,16 +11,16 @@ import java.util.Optional;
  * Service for managing Habit entries in Notion.
  */
 public class HabitService {
-    
+
     private final NotionClient client;
-    
+
     public HabitService(NotionClient client) {
         this.client = client;
     }
-    
+
     /**
      * Creates a habit entry in the Daily Log database, linked to a specific day.
-     * 
+     *
      * @param habit The habit to create
      * @param day   The day to link this habit to
      * @return The created page ID, or empty if failed
@@ -29,7 +29,7 @@ public class HabitService {
         if (day.id() == null) {
             throw new IllegalArgumentException("Day must have an ID to link habits to it");
         }
-        
+
         String json = """
                 {
                     "parent": { "database_id": "%s" },
@@ -49,16 +49,11 @@ public class HabitService {
                         "Day": {
                             "relation": [{ "id": "%s" }]
                         }
-                    }
+                    },
+                    "icon": { "type": "emoji", "emoji": "%s" }
                 }
-                """.formatted(
-                        NotionConfig.DAILY_LOG_DATABASE_ID,
-                        habit.name(),
-                        day.date().toString(),
-                        habit.group().getDisplayName(),
-                        day.id()
-                );
-        
+                """.formatted(NotionConfig.DAILY_LOG_DATABASE_ID, habit.name(), day.date().toString(), habit.group().getDisplayName(), day.id(), habit.icon());
+
         return client.createPage(json);
     }
 }
