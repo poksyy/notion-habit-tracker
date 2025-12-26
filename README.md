@@ -1,6 +1,6 @@
 # Notion Automations
 
-Automation scripts for my Notion workspace.
+Automation scripts for Notion workspace.
 
 ## Features
 
@@ -29,7 +29,27 @@ cp .env.example .env
 # Fill in: NOTION_TOKEN, DAYS_DATABASE_ID, DAILY_LOG_DATABASE_ID
 ```
 
-### 4. Run
+### 4. Configure Habits
+```bash
+cp habits.example.json habits.json
+```
+
+Edit `habits.json` to define your habits:
+```json
+{
+  "habits": [
+    { "name": "Exercise", "group": "MORNING", "icon": "💪", "order": 1 },
+    { "name": "Read", "group": "EVENING", "icon": "📚", "order": 2 }
+  ]
+}
+```
+
+- **name**: Habit name
+- **group**: `MORNING` or `EVENING`
+- **icon**: Any emoji
+- **order**: Display order (lower = top)
+
+### 5. Run
 ```bash
 mvn clean package
 
@@ -49,6 +69,12 @@ Add secrets in **Settings → Secrets → Actions**:
 - `NOTION_TOKEN`
 - `DAYS_DATABASE_ID`
 - `DAILY_LOG_DATABASE_ID`
+- `HABITS_JSON` - Your habits configuration in JSON format
+
+Example `HABITS_JSON`:
+```json
+{"habits":[{"name":"Exercise","group":"MORNING","icon":"💪","order":1},{"name":"Read","group":"EVENING","icon":"📚","order":2}]}
+```
 
 Schedules:
 - **Daily habits**: 06:00 UTC+1
@@ -64,7 +90,8 @@ src/main/java/com/poksy/
 ├── client/
 │   └── NotionClient.java
 ├── config/
-│   └── NotionConfig.java
+│   ├── NotionConfig.java
+│   └── HabitConfig.java
 ├── model/
 │   ├── Day.java
 │   └── Habit.java

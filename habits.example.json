@@ -1,0 +1,6 @@
+{
+  "habits": [
+    { "name": "Morning routine", "group": "MORNING", "icon": "🌅", "order": 1 },
+    { "name": "Exercise", "group": "EVENING", "icon": "💪", "order": 2 }
+  ]
+}
