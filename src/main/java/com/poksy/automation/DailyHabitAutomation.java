@@ -1,9 +1,9 @@
 package com.poksy.automation;
 
 import com.poksy.client.NotionClient;
+import com.poksy.config.HabitConfig;
 import com.poksy.model.Day;
 import com.poksy.model.Habit;
-import com.poksy.model.Habit.HabitGroup;
 import com.poksy.service.DayService;
 import com.poksy.service.HabitService;
 
@@ -13,20 +13,12 @@ public class DailyHabitAutomation {
 
     private final DayService dayService;
     private final HabitService habitService;
+    private final List<Habit> habits;
 
-    private static final List<Habit> HABITS = List.of(
-            new Habit("Morning routine", HabitGroup.MORNING, "🌅", 1),
-            new Habit("Stretching", HabitGroup.MORNING, "🤸", 2),
-            new Habit("Meditate", HabitGroup.MORNING, "🧘", 3),
-            new Habit("Work", HabitGroup.MORNING, "💻", 4),
-            new Habit("Exercise", HabitGroup.EVENING, "💪", 5),
-            new Habit("Learn", HabitGroup.EVENING, "📚", 6),
-            new Habit("Night routine", HabitGroup.EVENING, "🌙", 7)
-    );
-    
     public DailyHabitAutomation(NotionClient client) {
         this.dayService = new DayService(client);
         this.habitService = new HabitService(client);
+        this.habits = HabitConfig.loadHabits();
     }
 
     public void run() {
@@ -50,8 +42,8 @@ public class DailyHabitAutomation {
         int successCount = 0;
         int failCount = 0;
 
-        for (int i = HABITS.size() - 1; i >= 0; i--) {
-            Habit habit = HABITS.get(i);
+        for (int i = habits.size() - 1; i >= 0; i--) {
+            Habit habit = habits.get(i);
             var result = habitService.createForDay(habit, day);
 
             if (result.isPresent()) {
@@ -82,7 +74,7 @@ public class DailyHabitAutomation {
         }
     }
 
-    public static List<Habit> getHabits() {
-        return HABITS;
+    public List<Habit> getHabits() {
+        return habits;
     }
 }

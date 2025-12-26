@@ -1,6 +1,9 @@
 # Environment files (contain secrets!)
 .env
 
+# JSON
+habits.json
+
 # Maven
 target/
 pom.xml.tag

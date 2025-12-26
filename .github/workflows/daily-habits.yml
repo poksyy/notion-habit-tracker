@@ -9,23 +9,23 @@ on:
   workflow_dispatch:
 
 jobs:
-  create-daily-habits:
+  create-habits:
     runs-on: ubuntu-latest
-    
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      
-      - name: Set up Java 17
-        uses: actions/setup-java@v4
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
-      
+
+      - name: Create habits.json
+        run: echo '${{ secrets.HABITS_JSON }}' > habits.json
+
       - name: Build project
         run: mvn clean package -q
-      
+
       - name: Run habits automation
         env:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
